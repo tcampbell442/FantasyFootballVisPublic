@@ -49,9 +49,11 @@ body {
 var player1 = "Drew Brees",
 	player2 = "Andrew Luck";
 
-var m = [30, 10, 10, 30],
+var m = [100, 200, 10, 200],
     w = 960 - m[1] - m[3],
     h = 930 - m[0] - m[2];
+
+var sidegap = 0;
 
 var format = d3.format(",.0f");
 
@@ -97,7 +99,7 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
       .data(temp1)
     .enter().append("g")
       .attr("class", "bar1")
-      .attr("transform", function(d) { return "translate(0," + y(d.Opponent) + ")"; });
+      .attr("transform", function(d) { return "translate(" + sidegap + "," + y(d.Opponent) + ")"; });
 
   bar.append("rect")
       .attr("width", function(d) { return x(d.FantasyPointsEarned); })
@@ -107,20 +109,70 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
       .data(temp2)
     .enter().append("g")
       .attr("class", "bar2")
-      .attr("transform", function(d) { return "translate(0," + y(d.Opponent) + ")"; });
+      .attr("transform", function(d) { return "translate(" + sidegap + "," + y(d.Opponent) + ")"; });
 
   bar.append("rect")
       .attr("width", function(d) { return x(d.FantasyPointsEarned); })
       .attr("height", y.rangeBand());
 
-
+  // Add the axis
   svg.append("g")
       .attr("class", "x axis")
-      .call(xAxis);
-
+      .call(xAxis)
+      .attr("transform", function(d) { return "translate(" + sidegap + ",0)"; });
   svg.append("g")
       .attr("class", "y axis")
-      .call(yAxis);
+      .call(yAxis)
+      .attr("transform", function(d) { return "translate(" + sidegap + ",0)"; });
+	  
+  var leftPlayer = svg.append("g");
+  var rightPlayer = svg.append("g");
+  	   
+   leftPlayer.append("rect")
+    .attr("x", -200)
+	.attr("y", -50)
+	.attr("height", 1000)
+	.attr("width", 150)
+	.style("fill", "steelblue")
+	.attr("opacity", .5);
+	
+   leftPlayer.append("svg:image")
+   .attr('x',-200)
+   .attr('y',0)
+   .attr('width', 150)
+   .attr('height', 150)
+   .attr("xlink:href","placeholder.jpg");  
+   
+   leftPlayer.append("text")
+     .text(player1)
+	 .attr("x", -200)
+	 .attr("y", -25)
+	 .attr("font-family", "sans-serif")
+	 .attr("font-size", "20px")
+	 .attr("fill", "black");
+   
+   rightPlayer.append("rect")
+    .attr("x", 550)
+	.attr("y", -50)
+	.attr("height", 1000)
+	.attr("width", 150)
+	.style("fill", "red")
+	.attr("opacity", .5);
+   
+   rightPlayer.append("svg:image")
+   .attr('x', 550)
+   .attr('y',0)
+   .attr('width', 150)
+   .attr('height', 150)
+   .attr("xlink:href","placeholder.jpg");
+   
+    rightPlayer.append("text")
+     .text(player2)
+	 .attr("x", 550)
+	 .attr("y", -25)
+	 .attr("font-family", "sans-serif")
+	 .attr("font-size", "20px")
+	 .attr("fill", "black");
 });
 
 </script>
