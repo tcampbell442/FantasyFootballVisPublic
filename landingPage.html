@@ -13,6 +13,18 @@
 		body {
    			background-color: #d3d3d3;
 		}
+		div.tooltip {	
+		    position: absolute;			
+		    text-align: center;			
+		    width: 60px;					
+		    height: 28px;					
+		    padding: 2px;				
+		    font: 12px sans-serif;		
+		    background: lightsteelblue;	
+		    border: 0px;		
+		    border-radius: 8px;			
+		    pointer-events: none;			
+		}
 	</style>
 	<script>	
 			var margin = {top: 20, right: 40, bottom: 30, left: 20},
@@ -27,6 +39,10 @@
 					.domain([0, 60])
 					.range([0, width]);
 
+			// Define the div for the tooltip
+			var div = d3.select("body").append("div")	
+			    .attr("class", "tooltip")				
+			    .style("opacity", 0);
 
 			d3.csv("NFL-2016-data-dom.csv", function(data){
     			qb_count = 0;
@@ -77,6 +93,8 @@
     			data_array.push(qb_count, wr_count, rb_count, te_count, k_count, def_count);
     			data_keys.push("QB", "WR", "RB", "TE", "K", "DEF");
 
+    			var color_array = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6"];
+
     			var bars = canvas.selectAll("rect")
 					.data(data_array)
 					.enter()// binding data to the objects and create placeholders
@@ -87,9 +105,21 @@
 						.attr("transform", "translate(0,-20)")
 						.attr("x", function(d, i) { return i * 175 + 50})
 						.attr("y", function(d) {return height - ls(d)})
+						.attr("fill", function(d,i) {return color_array[i]})
 						.on("click", function(d,i){
 							location.href = "/google.com?boxSelected=" + data_keys[i]; //link to tyler's page here
-						});
+						})
+						.on("mouseover", function(d) { 
+							d3.select(this).attr("fill", "red");
+							            div.transition()		
+							                .duration(200)		
+							                .style("opacity", .9);		
+							            div	.html(d)	
+							                .style("left", (d3.event.pageX) + "px")		
+							                .style("top", (d3.event.pageY - 28) + "px");
+						})
+        				.on("mouseout", function(d, i) {d3.select(this).attr("fill", function() {return color_array[i];});})
+        				.text(function(d) {return d});
 
 				var textAxis = d3.scale.ordinal()
 					.domain(data_keys)
