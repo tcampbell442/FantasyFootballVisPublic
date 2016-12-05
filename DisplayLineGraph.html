@@ -68,7 +68,7 @@
       //var positionFilter = "qb";
       var playerData = [];
       // Set the dimensions of the canvas / graph
-      var margin = {top: 30, right: 20, bottom: 70, left: 50},
+      var margin = {top: 30, right: 20, bottom: 70, left: 400},
       width = 3600 - margin.left - margin.right,
       height = 1200 - margin.top - margin.bottom;
       
@@ -137,10 +137,23 @@
                                     .attr("id", 'tag'+d.key.replace(/\s+/g, '')) // assign ID
                                     .attr("d", pointsline(d.values));
                                     
-                                    // Add the Legend
-                                    svg.append("text")
-                                    .attr("x", (legendSpace/2)+i*legendSpace)  // space legend
-                                    .attr("y", height + (margin.bottom/2)+ 5)
+                                    // Add the Legend on the left side
+                                    svg.append("text")  // space legend
+                                    .attr("x", function(d){
+                                            if(i < dataNest.length/2){
+                                              return(-320)
+                                            }else{
+                                            return(-140)
+                                            }
+                                          })
+                                    .attr("y", function(d){
+                                            if(i < dataNest.length/2){
+                                          console.log(i);
+                                              return((legendSpace/2)+((i*legendSpace)/2))
+                                            }else{
+                                              return((legendSpace/2)+(((i - ((dataNest.length+1)/2))*legendSpace)/2))
+                                            }
+                                          })  // space legend
                                     .attr("class", "legend")    // style the legend
                                     .style("fill", function() { // Add the colours dynamically
                                            return d.color = color(d.key); })
@@ -181,6 +194,7 @@
                    .attr("r", 3.5)
                    .attr("cx", function(d) { return x(d.playerWeek); })
                    .attr("cy", function(d) { return y(d.playerPoints); });
+                   
                    
                    // Add the X Axis
                    svg.append("g")
