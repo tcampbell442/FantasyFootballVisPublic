@@ -104,7 +104,6 @@
             d3.csv("NFL-2016-data-dom.csv", function(error, data) {
                    data.forEach(function(d) {
                                   if(d.Position.localeCompare(positionFilter) == 0){
-                                console.log("in thing");
                                     playerData.push({
                                                 playerName: d.PlayerName,
                                                 playerWeek: d.Week,
@@ -114,9 +113,8 @@
                                   }
                                 });
                    
-                   // Scale the range of the data
-                   x.domain(d3.extent(playerData, function(d) { return d.playerWeek; }));
-                   y.domain([0, d3.max(playerData, function(d) { return d.playerPoints; })]);
+                   x.domain(d3.extent(playerData, function(d) { return parseInt(d.playerWeek); }));
+                   y.domain([0, d3.max(playerData, function(d) { return parseInt(d.playerPoints); })]);
                    
                    // Nest the entries by symbol
                    var dataNest = d3.nest()
@@ -215,7 +213,8 @@
       var cmpBtn = document.getElementById("ComparePlayers");
       cmpBtn.addEventListener('click', function(event){
                               
-                              location.href = "./FFVCompare.html?p1=" + selectedPlayers[0]+ "&p2="+ selectedPlayers[1]; //link to karls page
+                              //location.href = "./FFVCompare.html?p1=" + selectedPlayers[0]+ "&p2="+ selectedPlayers[1]; //link to karls page
+                              parent.comparePop = + selectedPlayers[0]+ "&p2="+ selectedPlayers[1];
                               });
       </script>
   </body>
