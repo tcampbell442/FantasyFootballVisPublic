@@ -193,28 +193,68 @@
                    .attr("cy", function(d) { return y(d.playerPoints); });
                    
                    
-                   // Add the X Axis
+                   // Add the X Axis and X legend
                    svg.append("g")
                    .attr("class", "x axis")
                    .attr("transform", "translate(0," + height + ")")
-                   .call(xAxis);
+                   .call(xAxis)
+                   .append("text")
+                   //.attr("transform", "rotate(-90)")
+                   .attr("y", 30)
+                   .attr("x", width/2)
+                   .attr("dy", ".71em")
+                   .attr("font-size","24px")
+                   .style("text-anchor", "middle")
+                   .text("Week");
                    
-                   // Add the Y Axis
+                   // Add the Y Axis and Y legend
                    svg.append("g")
                    .attr("class", "y axis")
-                   .call(yAxis);
+                   .call(yAxis)
+                   .append("text")
+                   .attr("transform", "rotate(-90)")
+                   .attr("y", -50)
+                   .attr("x", -(height/2) + 50)
+                   .attr("dy", ".71em")
+                   .attr("font-size","24px")
+                   .style("text-anchor", "end")
+                   .text("Fantasy Points");
+                   
+                   svg.append("text")
+                   .text("Players")
+                   .attr("x", -260)
+                   .attr("font-size","24px");
                    
                    });
                    
+                   
       </script>
     <input style="font-size:32px;" id="ComparePlayers" type="button" value="Compare Players"/>
+    <input style="font-size:32px" id ="resetSelection" type="button" value="Reset Selection"/>
     
     <script>
       var cmpBtn = document.getElementById("ComparePlayers");
       cmpBtn.addEventListener('click', function(event){
                               
                               //location.href = "./FFVCompare.html?p1=" + selectedPlayers[0]+ "&p2="+ selectedPlayers[1]; //link to karls page
-                              parent.comparePop = + selectedPlayers[0]+ "&p2="+ selectedPlayers[1];
+                              if(selectedPlayers.length ==2){
+                                parent.comparePop = + selectedPlayers[0]+ "&p2="+ selectedPlayers[1];
+                              }
                               });
+                              
+      var resetBtn = document.getElementById("resetSelection");
+      resetBtn.addEventListener('click', function(event){
+                                
+                                
+                                selectedPlayers.forEach(function(d){
+                                    d3.select("#tag"+d.replace(/\s+/g, ''))
+                                    .transition().duration(100)
+                                    .style("stroke-width",1);
+                                                        
+                                
+                                });
+                                
+                                selectedPlayers = [];
+                                });
       </script>
   </body>
