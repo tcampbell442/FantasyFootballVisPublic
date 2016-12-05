@@ -21,9 +21,11 @@
     window.graphPop = graphPop;
     window.watch("graphPop", function(id, old, cur){
     
+                /*
                  console.log("changed Property: ", id);
                  console.log("old value: ", old);
                  console.log("new Value: ", cur);
+                 */
                  lineGraph.src = 'DisplayLineGraph.html?boxSelected='+cur;
                  window.graphPop = cur;
     });
@@ -31,9 +33,11 @@
     window.comparePop = comparePop;
     console.log(window.comparePop);
     window.watch("comparePop", function(id, old, cur){
+                 /*
                  console.log("changed Property: ", id);
                  console.log("old value: ", old);
                  console.log("new Value: ", cur);
+                  */
                  FFVCompare.src = 'FFVCompare.html?' + cur;
                  window.comparePop = cur;
                  
