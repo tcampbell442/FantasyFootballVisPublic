@@ -1,8 +1,33 @@
 <html>
 <body>
   
-  <iframe src="landingPage.html" height="1600" width="1100"></iframe>
-  <iframe src="DisplayLineGraph.html?boxSelected=qb" height="1600" width="1200"></iframe>
-  <iframe src="FFVCompare.html?p1=Andrew Luck&p2=Alex Smith" height="1600" width="1200"></iframe>
+
+
+  <!---<iframe id = "landingPage" src="landingPage.html" height="1600" width="1100"></iframe> --->
+  <iframe id = "landingPage" height="1600" width="1100"></iframe>
+  <iframe id = "lineGraph" height="1600" width="2400"></iframe>
+  <iframe id = "FFVCompare" height="1600" width="1200"></iframe>
+  
+  <script>
+    var graphPop = "qb";
+    var landingPage = document.getElementById("landingPage");
+    landingPage.src = 'landingPage.html';
+    var lineGraph = document.getElementById("lineGraph");
+    lineGraph.src = 'DisplayLineGraph.html?boxSelected='+graphPop;
+    var FFVCompare = document.getElementById("FFVCompare");
+    FFVCompare.src = 'FFVCompare.html?p1=Andrew Luck&p2=Alex Smith';
+    
+    window.graphPop = "qb";
+    window.watch("graphPop", function(id, old, cur){
+    
+                 console.log("changed Property: ", id);
+                 console.log("old value: ", old);
+                 console.log("new Value: ", cur);
+                 lineGraph.src = 'DisplayLineGraph.html?boxSelected='+cur;
+    });
+    
+    //window.graphPop = "this";
+    </script>
+  
 </body>
 </html>
