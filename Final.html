@@ -16,7 +16,7 @@
     var lineGraph = document.getElementById("lineGraph");
     lineGraph.src = 'DisplayLineGraph.html?boxSelected='+graphPop;
     var FFVCompare = document.getElementById("FFVCompare");
-    FFVCompare.src = 'FFVCompare.html?p1=Andrew Luck&p2=Alex Smith';
+    FFVCompare.src = 'FFVCompare.html?p1=Drew Brees&p2=Andrew Luck';
     
     window.graphPop = graphPop;
     window.watch("graphPop", function(id, old, cur){
@@ -37,6 +37,7 @@
                  console.log("old value: ", old);
                  console.log("new Value: ", cur);
                   */
+                
                  FFVCompare.src = 'FFVCompare.html?' + cur;
                  window.comparePop = cur;
                  
