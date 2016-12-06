@@ -69,8 +69,8 @@
       var playerData = [];
       // Set the dimensions of the canvas / graph
       var margin = {top: 30, right: 20, bottom: 70, left: 400},
-      width = 3600 - margin.left - margin.right,
-      height = 1200 - margin.top - margin.bottom;
+      width = 1800 - margin.left - margin.right,
+      height = 1800 - margin.top - margin.bottom;
       
       // Parse the date / time
       //var parseDate = d3.time.format("%b %Y").parse;
@@ -229,8 +229,10 @@
                    
                    
       </script>
-    <input style="font-size:32px;" id="ComparePlayers" type="button" value="Compare Players"/>
-    <input style="font-size:32px" id ="resetSelection" type="button" value="Reset Selection"/>
+    <div id="buttonHolder">
+      <input style="font-size:32px;" id="ComparePlayers" type="button" value="Compare Players"/>
+      <input style="font-size:32px" id ="resetSelection" type="button" value="Reset Selection"/>
+    </div>
     
     <script>
       var cmpBtn = document.getElementById("ComparePlayers");
