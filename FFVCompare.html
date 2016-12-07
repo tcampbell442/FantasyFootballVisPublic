@@ -41,6 +41,11 @@ body {
   stroke: black;
 }
 
+.axis text {
+				font-family: sans-serif;
+				font-size: 20px;
+			}
+			
 </style>
 <body>
 <script src="d3.v3.min.js"></script>
@@ -74,7 +79,7 @@ body {
 var player1 = QueryString.p1,
 	player2 = QueryString.p2;
 
-var m = [100, 200, 10, 200],
+var m = [100, 90, 10, 90],
     w = 860 - m[1] - m[3],
     h = 830 - m[0] - m[2];
 
@@ -152,7 +157,7 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
 	  
   var leftPlayer = svg.append("g");
   var rightPlayer = svg.append("g");
-  	   
+ /* 	   
    leftPlayer.append("rect")
     .attr("x", -200)
 	.attr("y", -50)
@@ -167,15 +172,15 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
    .attr('width', 150)
    .attr('height', 150)
    .attr("xlink:href","placeholder.jpg");  
-   
+   */
    leftPlayer.append("text")
      .text(player1)
-	 .attr("x", -200)
-	 .attr("y", -25)
+	 .attr("x", -50)
+	 .attr("y", -35)
 	 .attr("font-family", "sans-serif")
-	 .attr("font-size", "20px")
+	 .attr("font-size", "28px")
 	 .attr("fill", "black");
-   
+   /*
    rightPlayer.append("rect")
     .attr("x", 550)
 	.attr("y", -50)
@@ -183,20 +188,20 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
 	.attr("width", 150)
 	.style("fill", "red")
 	.attr("opacity", .5);
-   
+  
    rightPlayer.append("svg:image")
    .attr('x', 550)
    .attr('y',0)
    .attr('width', 150)
    .attr('height', 150)
    .attr("xlink:href","placeholder.jpg");
-   
+    */
     rightPlayer.append("text")
      .text(player2)
 	 .attr("x", 550)
-	 .attr("y", -25)
+	 .attr("y", -35)
 	 .attr("font-family", "sans-serif")
-	 .attr("font-size", "20px")
+	 .attr("font-size", "28px")
 	 .attr("fill", "black");
 });
 
