@@ -11,7 +11,7 @@
 <body>
 	<style>
 		body {
-   			background-color: #d3d3d3;
+   			
 		}
 		div.tooltip {	
 		    position: absolute;			
@@ -32,6 +32,9 @@
 							height = 700,
 							barWidth = Math.floor(width / 19) - 1;
 		
+			var x = d3.scale.ordinal()
+   						 .rangeRoundBands([0, width], .1);
+
 			var y = d3.scale.linear()
 					.range([height, 0]);
 
@@ -55,7 +58,7 @@
 
 				var ls = d3.scale.linear()
 								.domain([0, height])
-								.range([0, 1300]);
+								.range([0, height]);
 
     			data.forEach(function(d) {
     				d.FantasyPointsEarned = +d.FantasyPointsEarned;
@@ -99,12 +102,12 @@
 					.data(data_array)
 					.enter()// binding data to the objects and create placeholders
 						.append("rect")
-						.attr("height", function(d){return ls(d);})//d represents each data object
+						.attr("height", function(d){return ls(d) / 2;})//d represents each data object
 						.attr("width", 50)
 						.attr("fill", "black")
 						.attr("transform", "translate(0,-20)")
-						.attr("x", function(d, i) { return i * 175 + 50})
-						.attr("y", function(d) {return height - ls(d)})
+						.attr("x", function(d, i) { return i * 75 + 50})
+						.attr("y", function(d) {return height - ls(d) /2})
 						.attr("fill", function(d,i) {return color_array[i]})
 						.on("click", function(d,i){
 							//location.href = "./DisplayLineGraph.html?boxSelected=" + data_keys[i]; //link to tyler's page here
@@ -124,7 +127,7 @@
 
 				var textAxis = d3.scale.ordinal()
 					.domain(data_keys)
-					.rangePoints([0,width-100]);
+					.rangePoints([0,width-450]);
 				
 				var yScale = d3.scale.linear()
 					.domain([0, height])
