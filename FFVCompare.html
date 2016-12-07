@@ -175,11 +175,17 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
    */
    leftPlayer.append("text")
      .text(player1)
-	 .attr("x", -50)
-	 .attr("y", -35)
+	 .attr("x", -30)
+	 .attr("y", -40)
 	 .attr("font-family", "sans-serif")
 	 .attr("font-size", "28px")
 	 .attr("fill", "black");
+	 
+   leftPlayer.append("circle")
+   	 .attr("cx", -60)
+	 .attr("cy", -48)
+	 .attr("r", 20)
+	 .attr("fill", "steelblue");
    /*
    rightPlayer.append("rect")
     .attr("x", 550)
@@ -198,11 +204,17 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
     */
     rightPlayer.append("text")
      .text(player2)
-	 .attr("x", 350)
-	 .attr("y", -35)
+	 .attr("x", 300)
+	 .attr("y", -40)
 	 .attr("font-family", "sans-serif")
 	 .attr("font-size", "28px")
 	 .attr("fill", "black");
+	 
+	 rightPlayer.append("circle")
+   	 .attr("cx", 500)
+	 .attr("cy", -48)
+	 .attr("r", 20)
+	 .attr("fill", "red");
 });
 
 </script>
