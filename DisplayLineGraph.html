@@ -68,9 +68,9 @@
       //var positionFilter = "qb";
       var playerData = [];
       // Set the dimensions of the canvas / graph
-      var margin = {top: 30, right: 20, bottom: 70, left: 400},
-      width = 1800 - margin.left - margin.right,
-      height = 1800 - margin.top - margin.bottom;
+      var margin = {top: 30, right: 20, bottom: 70, left: 420},
+      width = 1850 - margin.left - margin.right,
+      height = 1400 - margin.top - margin.bottom;
       
       // Parse the date / time
       //var parseDate = d3.time.format("%b %Y").parse;
@@ -123,8 +123,8 @@
                    
                    var color = d3.scale.category20();   // set the colour scale
                    
-                   legendSpace = width/dataNest.length; // spacing for the legend
-                   
+                   //legendSpace = height/dataNest.length; // spacing for the legend
+                   legendSpace = dataNest.length;
                    // Loop through each symbol / key
                    dataNest.forEach(function(d,i) {
                                     
@@ -146,9 +146,9 @@
                                           })
                                     .attr("y", function(d){
                                             if(i < dataNest.length/2){
-                                              return((legendSpace/2)+((i*legendSpace)/2))
+                                              return((legendSpace/2)+((i*legendSpace) + 10))
                                             }else{
-                                              return((legendSpace/2)+(((i - ((dataNest.length+1)/2))*legendSpace)/2))
+                                              return((legendSpace/2)+(((i - ((dataNest.length+1)/2))*legendSpace)+ 10))
                                             }
                                           })  // space legend
                                     .attr("class", "legend")    // style the legend
@@ -161,7 +161,7 @@
                                           //determine if line is bold
                                           var active   = d.active ? false : true,
                                         
-                                          newStroke = active? 8: 1;
+                                          newStroke = active? 10: 1;
                                         
                                           // Hide or show the elements based on the ID
                                           d3.select("#tag"+d.key.replace(/\s+/g, ''))
@@ -179,7 +179,8 @@
                                           d.active = active;
                                           }
                                         })
-                                    .text(d.key);
+                                    .text(d.key)
+                                    .style("font-size", "20px");
                                     
                                     
                                     });
