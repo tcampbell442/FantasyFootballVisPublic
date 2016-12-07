@@ -123,8 +123,8 @@
                    
                    var color = d3.scale.category20();   // set the colour scale
                    
-                   //legendSpace = height/dataNest.length; // spacing for the legend
-                   legendSpace = dataNest.length;
+                   legendSpace = (height*2)/dataNest.length; // spacing for the legend
+                   //legendSpace = dataNest.length;
                    // Loop through each symbol / key
                    dataNest.forEach(function(d,i) {
                                     
@@ -146,9 +146,9 @@
                                           })
                                     .attr("y", function(d){
                                             if(i < dataNest.length/2){
-                                              return((legendSpace/2)+((i*legendSpace) + 10))
+                                              return((legendSpace/2)+((i*legendSpace) + 30))
                                             }else{
-                                              return((legendSpace/2)+(((i - ((dataNest.length+1)/2))*legendSpace)+ 10))
+                                              return((legendSpace/2)+(((i - ((dataNest.length+1)/2))*legendSpace)+ 30))
                                             }
                                           })  // space legend
                                     .attr("class", "legend")    // style the legend
