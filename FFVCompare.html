@@ -79,7 +79,7 @@ body {
 var player1 = QueryString.p1,
 	player2 = QueryString.p2;
 
-var m = [100, 90, 10, 90],
+var m = [100, 300, 10, 90],
     w = 860 - m[1] - m[3],
     h = 830 - m[0] - m[2];
 
@@ -198,7 +198,7 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
     */
     rightPlayer.append("text")
      .text(player2)
-	 .attr("x", 550)
+	 .attr("x", 350)
 	 .attr("y", -35)
 	 .attr("font-family", "sans-serif")
 	 .attr("font-size", "28px")
