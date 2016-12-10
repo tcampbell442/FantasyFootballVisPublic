@@ -81,7 +81,7 @@ var player1 = QueryString.p1,
 
 var m = [100, 300, 10, 90],
     w = 860 - m[1] - m[3],
-    h = 830 - m[0] - m[2];
+    h = 1330 - m[0] - m[2];
 
 var sidegap = 0;
 
@@ -91,7 +91,7 @@ var x = d3.scale.linear().range([0, w]),
     y = d3.scale.ordinal().rangeRoundBands([0, h], .1);
 
 var xAxis = d3.svg.axis().scale(x).orient("top").tickSize(-h),
-    yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
+    yAxis = d3.svg.axis().scale(y).orient("left").tickSize(10);
 
 var svg = d3.select("body").append("svg")
     .attr("width", w + m[1] + m[3])
@@ -108,6 +108,33 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
   	d.FantasyPointsEarned = +d.FantasyPointsEarned; 
 	});
 
+   selectedData1 = {};
+   selectedData2 = {};
+   data.forEach(function(d) { 
+  		if(d.PlayerName == player1){
+			if(selectedData1.hasOwnProperty(d.Opponent)){
+				selectedData1[d.Opponent]["points"] = selectedData1[d.Opponent]["points"] + d.FantasyPointsEarned;
+				selectedData1[d.Opponent]["games"] = selectedData1[d.Opponent]["games"] + 1;
+			}else {
+				selectedData1[d.Opponent] = {
+					points: d.FantasyPointsEarned,
+					games: 1
+				}
+			}
+		}else if(d.PlayerName == player2){
+			if(selectedData2.hasOwnProperty(d.Opponent)){
+				selectedData2[d.Opponent]["points"] = selectedData2[d.Opponent]["points"] + d.FantasyPointsEarned;
+				selectedData2[d.Opponent]["games"] = selectedData2[d.Opponent]["games"] + 1;
+			}else {
+				selectedData2[d.Opponent] = {
+					points: d.FantasyPointsEarned,
+					games: 1
+				}
+			}
+		}
+	});
+    
+
   // Subdivide into average score each player makes against given oponents
   var sortedData = d3.nest()
   	.key(function(d) {return d.PlayerName; })
@@ -118,12 +145,13 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
 	var temp1 = data.filter(function(d) {return d.PlayerName == player1; });
 	var temp2 = data.filter(function(d) {return d.PlayerName == player2; });
 
-	console.log(temp1);
+	var yRange = data.map(function(d) { return d.Opponent; }).sort();
 
   // Set the scale domain.
   x.domain([0, d3.max(data, function(d) { return d.FantasyPointsEarned; })]);
-  y.domain(data.map(function(d) { return d.Opponent; }));
-
+  y.domain(yRange);
+    
+/*
   //  Add the Bars
   var bar = svg.selectAll("g.bar")
       .data(temp1)
@@ -144,6 +172,57 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
   bar.append("rect")
       .attr("width", function(d) { return x(d.FantasyPointsEarned); })
       .attr("height", y.rangeBand());
+
+
+	//   Add Bars v2
+*/
+var bar;
+function addBar(opponent, val, shiftVal, color, color2){
+	//console.log(val);
+	svg.append("rect")
+		.attr("x", sidegap)
+		.attr("y", y(opponent) + shiftVal)
+		.attr("width", x(val))
+		.attr("height", y.rangeBand())
+		.style("fill", color)
+		.style("stroke", color2);
+}
+
+yRange = new Set(yRange)
+var val1, val2;
+cp1 = "#4682b4";  //steel blue
+cp1b = "#1c3448";  //bit darker than steel blue
+cp2 = "#ff0000";  //red
+cp2b = "#660000";  // bit darker than red
+shiftValue = 10;  //how offset each bar is when they're stacked
+//Iterate through teams in alpha order, as on y axis
+yRange.forEach(function(d) {
+	if(selectedData1.hasOwnProperty(d)){
+		if(selectedData2.hasOwnProperty(d)){  //Both players have data for that team
+			val1 = selectedData1[d].points/selectedData1[d].games;
+			val2 = selectedData2[d].points/selectedData2[d].games;
+			if(val1 > val2){
+				addBar(d, val1, 0, cp1, cp1b);
+				addBar(d, val2, shiftValue, cp2, cp2b);
+			}
+			else{
+				addBar(d, val2, 0, cp2, cp2b);
+				addBar(d, val1, shiftValue, cp1, cp1b);
+			}
+		}
+		else {    //Oonly player 1 has data for the team
+			val1 = selectedData1[d].points/selectedData1[d].games;
+			addBar(d, val1, 0, cp1, cp1b)
+		}
+	}else if(selectedData2.hasOwnProperty(d)){  //Only player 2 has data for the team
+		val2 = selectedData2[d].points/selectedData2[d].games;
+		addBar(d, val2, 0, cp2, cp2b);
+	}
+	// Otherwise neither player has data for it, so do nothing.
+
+})
+
+	
 
   // Add the axis
   svg.append("g")
