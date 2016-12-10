@@ -99,7 +99,8 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-d3.csv("NFL-2016-data-dom.csv", function(error, data) {
+// "NFL-2016-data-dom.csv"
+d3.csv("example.csv", function(error, data) {
   if (error) throw error;
 
   // Parse strings to numbers
@@ -134,16 +135,6 @@ d3.csv("NFL-2016-data-dom.csv", function(error, data) {
 		}
 	});
     
-
-  // Subdivide into average score each player makes against given oponents
-  var sortedData = d3.nest()
-  	.key(function(d) {return d.PlayerName; })
-	.key(function(d) {return d.Opponent; })
-	.rollup(function(v) { return d3.mean(v, function(d) { return d.FantasyPointsEarned; }); })
-	.entries(data);
-
-	var temp1 = data.filter(function(d) {return d.PlayerName == player1; });
-	var temp2 = data.filter(function(d) {return d.PlayerName == player2; });
 
 	var yRange = data.map(function(d) { return d.Opponent; }).sort();
 
@@ -183,9 +174,10 @@ function addBar(opponent, val, shiftVal, color, color2){
 		.attr("x", sidegap)
 		.attr("y", y(opponent) + shiftVal)
 		.attr("width", x(val))
-		.attr("height", y.rangeBand())
+		.attr("height", y.rangeBand()-10)
 		.style("fill", color)
-		.style("stroke", color2);
+		.style("stroke", color2)
+		.style("stroke-width", 2.5);
 }
 
 yRange = new Set(yRange)
@@ -194,7 +186,7 @@ cp1 = "#4682b4";  //steel blue
 cp1b = "#1c3448";  //bit darker than steel blue
 cp2 = "#ff0000";  //red
 cp2b = "#660000";  // bit darker than red
-shiftValue = 10;  //how offset each bar is when they're stacked
+shiftValue = 8;  //how offset each bar is when they're stacked
 //Iterate through teams in alpha order, as on y axis
 yRange.forEach(function(d) {
 	if(selectedData1.hasOwnProperty(d)){
@@ -228,72 +220,64 @@ yRange.forEach(function(d) {
   svg.append("g")
       .attr("class", "x axis")
       .call(xAxis)
-      .attr("transform", function(d) { return "translate(" + sidegap + ",0)"; });
+      .attr("transform", function(d) { return "translate(" + sidegap + ",0)"; })
+	  .append("text")
+	  .attr("transform", "rotate(-90)")
+      .attr("y", -80)
+      .attr("x", -240)
+      .attr("dy", ".71em")
+      .attr("font-size","24px")
+      .style("text-anchor", "end")
+      .text("Opponent Team");
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
-      .attr("transform", function(d) { return "translate(" + sidegap + ",0)"; });
+      .attr("transform", function(d) { return "translate(" + sidegap + ",0)"; })
+	  .append("text")
+      .attr("y", -40)
+      .attr("x", 200)
+      .attr("dy", ".71em")
+      .attr("font-size","24px")
+      .style("text-anchor", "middle")
+      .text("Average Fantasy Points Earned");
 	  
   var leftPlayer = svg.append("g");
   var rightPlayer = svg.append("g");
- /* 	   
-   leftPlayer.append("rect")
-    .attr("x", -200)
-	.attr("y", -50)
-	.attr("height", 1000)
-	.attr("width", 150)
-	.style("fill", "steelblue")
-	.attr("opacity", .5);
-	
-   leftPlayer.append("svg:image")
-   .attr('x',-200)
-   .attr('y',0)
-   .attr('width', 150)
-   .attr('height', 150)
-   .attr("xlink:href","placeholder.jpg");  
-   */
+
+   var namesYPos = -65;
    leftPlayer.append("text")
      .text(player1)
 	 .attr("x", -30)
-	 .attr("y", -40)
+	 .attr("y", namesYPos)
 	 .attr("font-family", "sans-serif")
 	 .attr("font-size", "28px")
-	 .attr("fill", "black");
+	 .attr("fill", "black")
+	 .attr("style", "bold");
 	 
    leftPlayer.append("circle")
    	 .attr("cx", -60)
-	 .attr("cy", -48)
+	 .attr("cy", namesYPos-10)
 	 .attr("r", 20)
-	 .attr("fill", "steelblue");
-   /*
-   rightPlayer.append("rect")
-    .attr("x", 550)
-	.attr("y", -50)
-	.attr("height", 1000)
-	.attr("width", 150)
-	.style("fill", "red")
-	.attr("opacity", .5);
-  
-   rightPlayer.append("svg:image")
-   .attr('x', 550)
-   .attr('y',0)
-   .attr('width', 150)
-   .attr('height', 150)
-   .attr("xlink:href","placeholder.jpg");
-    */
+	 .attr("fill", cp1)
+	 .style("stroke", cp1b)
+	 .style("stroke-width", 2.5);
+
     rightPlayer.append("text")
      .text(player2)
 	 .attr("x", 300)
-	 .attr("y", -40)
+	 .attr("y", namesYPos)
 	 .attr("font-family", "sans-serif")
 	 .attr("font-size", "28px")
-	 .attr("fill", "black");
+	 .attr("fill", "black")
+	 .attr("style", "bold");
 	 
 	 rightPlayer.append("circle")
    	 .attr("cx", 275)
-	 .attr("cy", -48)
+	 .attr("cy", namesYPos-10)
 	 .attr("r", 20)
-	 .attr("fill", "red");
+	 .attr("fill", cp2)
+	 .style("stroke", cp2b)
+	 .style("stroke-width", 2.5);
 });
 
 </script>
