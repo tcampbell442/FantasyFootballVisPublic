@@ -135,6 +135,23 @@
                                     .attr("id", 'tag'+d.key.replace(/\s+/g, '')) // assign ID
                                     .attr("d", pointsline(d.values));
                                     
+                                    svg.append("text")
+                                    .append("textPath")
+                                    .attr("xlink:href", '#tag'+d.key.replace(/\s+/g, ''))
+                                    .text(d.key.replace(/\s+/g, ''));
+                                    //.attr("font-size","12px")
+                                    
+                                    
+                                    /*
+                                    svg.append("text")
+                                    .attr("class", "text")
+                                    .text(function() {return d.playerName});
+                                     */
+                                    /*
+                                    .append("text")
+                                    .text(function() {return (d.playerName)});
+                                     */
+                                    
                                     // Add the Legend on the left side
                                     svg.append("text")  // space legend
                                     .attr("x", function(d){
@@ -192,6 +209,21 @@
                    .attr("r", 3.5)
                    .attr("cx", function(d) { return x(d.playerWeek); })
                    .attr("cy", function(d) { return y(d.playerPoints); });
+                   
+                   
+                   //add player names
+                  
+                   /*
+                   svg.selectAll("dot")
+                   .data(playerData)
+                   .enter().append("text")
+                   .text(function(d) {return (d.playerName)})
+                   .attr("x", function(d) { return x(d.playerWeek); })
+                   .attr("y", function(d) { return y(d.playerPoints); });
+                   //.style("fill", function(d) { // Add the colours dynamically
+                     //     return d.color = color(d.key); });
+                  */
+
                    
                    
                    // Add the X Axis and X legend
